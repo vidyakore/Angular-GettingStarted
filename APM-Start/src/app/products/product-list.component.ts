@@ -33,7 +33,7 @@ products: IProduct[] = [
       "releaseDate": "May 21, 2021",
       "description": "Curved claw steel hammer",
       "price": 8.9,
-      "starRating": 4.8,
+      "starRating": 4.5,
       "imageUrl": "assets/images/hammer.png"
     }
   ];
@@ -63,7 +63,10 @@ products: IProduct[] = [
     product.productName.toLocaleLowerCase().includes(filterBy));
   }
 
-  
+  onRatingClicked(message: string): void
+  {
+    this.pageTitle = 'Product List: '+ message;
+  }
  
 }
 
