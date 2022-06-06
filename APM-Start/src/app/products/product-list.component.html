@@ -37,7 +37,7 @@
           <tbody>
               <!-- ngFor repeats portion of DOM
               iterates repeats a portion of DOM tree once for each item in an iterable list -->
-            <tr *ngFor='let product of products'>   
+            <tr *ngFor='let product of filteredProducts'>   
               <td>
                 <!-- property binding -->
                 <img *ngIf='showImage'
@@ -48,7 +48,7 @@
               </td>
               <td>{{ product.productName }}</td>
               <!-- added pipes - lowercase and currency -->
-              <td>{{ product.productCode | lowercase}}</td>
+              <td>{{ product.productCode | lowercase | convertToSpaces: '-'}}</td>
               <td>{{ product.releaseDate }}</td>
               <td>{{ product.price | currency: 'USD':'symbol':'1.2-2'}}</td>
               <td>{{ product.starRating }}</td>

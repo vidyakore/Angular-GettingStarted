@@ -1,17 +1,21 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { IProduct } from "./product";
 
 @Component({
     selector:'pm-products',  //so we can use it as a directive in any other component
-    templateUrl: './product-list.component.html'
+    templateUrl: './product-list.component.html',
+    styleUrls: ['./products-list.component.css']
 })
  
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
+  
 pageTitle: string = 'Product List';
 imageWidth: number = 60;
 imageMargin: number = 40;
 showImage: boolean = false;
-listFilter: string = 'cart';
-products: any[] = [
+
+filteredProducts: IProduct[] = [];
+products: IProduct[] = [
     {
       "productId": 2,
       "productName": "Garden Cart",
@@ -38,5 +42,29 @@ products: any[] = [
   {
     this.showImage = !this.showImage;
   }
+  ngOnInit(): void {
+    console.log("In Onit");
+  }
 
+  private _listFilter: string = 'cart';
+  get listFilter(): string {
+    return this._listFilter;
+  }
+  set listFilter(value: string)
+  {
+    this._listFilter = value;
+    console.log('In setter ',value);
+    this.filteredProducts = this.performFilter(value);
+  }
+
+  performFilter(filterBy: string): IProduct[]{
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.filter((product: IProduct) =>
+    product.productName.toLocaleLowerCase().includes(filterBy));
+  }
+
+  
+ 
 }
+
+
