@@ -4,9 +4,10 @@ import { productService } from "./product.service";
 import { Subscription } from "rxjs";
 
 @Component({
-    selector:'pm-products',  //so we can use it as a directive in any other component
+    // selector:'pm-products',  so we can use it as a directive in any other component
+    
     templateUrl: './product-list.component.html',
-    styleUrls: ['./products-list.component.css']
+    styleUrls: ['./product-list.component.css']
 })
  
 export class ProductListComponent implements OnInit, OnDestroy {
