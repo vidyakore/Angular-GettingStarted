@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { IProduct } from "./product";
 import { productService } from "./product.service";
+import { Subscription } from "rxjs";
 
 @Component({
     selector:'pm-products',  //so we can use it as a directive in any other component
@@ -8,28 +9,37 @@ import { productService } from "./product.service";
     styleUrls: ['./products-list.component.css']
 })
  
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
   
 pageTitle: string = 'Product List';
 imageWidth: number = 60;
 imageMargin: number = 40;
 showImage: boolean = false;
-
+errorMessage: string = '';
 filteredProducts: IProduct[] = [];
 products: IProduct[] = [];
-
+sub!: Subscription;
   constructor(private productService: productService) {
 
+  }
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
   toggleImage(): void
   {
     this.showImage = !this.showImage;
   }
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
-    
+    this.sub = this.productService.getProducts().subscribe({
+      next: products => 
+      {
+        this.products = products;
+        this.filteredProducts = this.products;;
+      },
+      error: err => this.errorMessage = err
+    });
   }
+
 
   private _listFilter: string = 'cart';
   get listFilter(): string {
